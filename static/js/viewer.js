@@ -24,12 +24,12 @@ const material = new THREE.MeshStandardMaterial({
 const scenes = [];
 
 function axisRotation(axis) {
-    // matplotlib-style: input meshes with different "up" convention.
-    // We want Z-up for the viewer's default orientation, so rotate accordingly.
+    // Three.js default camera is Y-up, so Y-up meshes render correctly with no rotation.
+    // Only rotate for non-Y conventions.
     const m = new THREE.Matrix4();
-    if (axis === 'z') return m;                           // already Z-up
-    if (axis === 'y') return m.makeRotationX(-Math.PI/2); // Y-up -> Z-up
-    if (axis === 'x') return m.makeRotationZ(-Math.PI/2); // X-up -> Z-up approx
+    if (!axis || axis === 'y') return m;                  // Y-up: no rotation (default)
+    if (axis === 'z') return m.makeRotationX(Math.PI/2);  // Z-up -> Y-up
+    if (axis === 'x') return m.makeRotationZ(Math.PI/2);  // X-up -> Y-up
     return m;
 }
 

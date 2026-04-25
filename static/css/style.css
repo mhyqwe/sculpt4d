@@ -170,8 +170,8 @@ h3 {
 /* ============ Results Grid ============ */
 .results-grid {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+    gap: 1.25rem;
     margin-top: 1rem;
 }
 .result-card {
@@ -182,10 +182,10 @@ h3 {
     box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
 .result-card-header {
-    padding: 0.75rem 1.25rem;
+    padding: 0.55rem 1rem;
     background: #f4f6f9;
     font-weight: 600;
-    font-size: 1rem;
+    font-size: 0.95rem;
     color: #2d5fb0;
     border-bottom: 1px solid #e5e7eb;
 }
@@ -193,10 +193,10 @@ h3 {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 0;
-    min-height: 340px;
+    min-height: 280px;
 }
 .result-card-body > div {
-    min-height: 340px;
+    min-height: 280px;
     position: relative;
     background: #1a1a1a;
 }
@@ -220,7 +220,7 @@ h3 {
     flex: 1;
     position: relative;
     cursor: grab;
-    min-height: 300px;
+    min-height: 240px;
 }
 .scene-area:active { cursor: grabbing; }
 

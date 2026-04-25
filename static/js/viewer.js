@@ -118,33 +118,26 @@ function createCard(cfg, idx, grid) {
 
 function setupScene(state) {
     const container = state.sceneArea;
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.2;
-    renderer.setClearColor(0x222222);
     container.appendChild(renderer.domElement);
     renderer.domElement.style.display = 'block';
     renderer.domElement.style.width = '100%';
     renderer.domElement.style.height = '100%';
 
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x262626);
-    scene.add(new THREE.AmbientLight(0xffffff, 0.5));
-    const keyLight = new THREE.DirectionalLight(0xffffff, 1.6);
-    keyLight.position.set(3, 5, 5);
-    scene.add(keyLight);
-    const fillLight = new THREE.DirectionalLight(0xbfd1ff, 0.5);
-    fillLight.position.set(-3, 2, -2);
-    scene.add(fillLight);
+    scene.background = new THREE.Color(0x222222);
+    scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+    const dl = new THREE.DirectionalLight(0xffffff, 1.5);
+    dl.position.set(2, 5, 5);
+    scene.add(dl);
 
-    const camera = new THREE.PerspectiveCamera(42, 1, 0.01, 100);
-    camera.position.set(2.4, 1.6, 2.4);
+    const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
 
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
-    controls.dampingFactor = 0.08;
-    controls.target.set(0, 0, 0);
 
     state.renderer = renderer;
     state.scene = scene;
@@ -210,8 +203,10 @@ function fitCamera(camera, mesh, controls) {
     const size = box.getSize(new THREE.Vector3());
     const maxDim = Math.max(size.x, size.y, size.z);
     const fov = camera.fov * (Math.PI / 180);
-    const dist = Math.abs(maxDim / (2 * Math.tan(fov / 2))) * 1.9;
-    camera.position.set(center.x + dist * 0.7, center.y + dist * 0.5, center.z + dist * 0.9);
+    let cameraZ = Math.abs(maxDim / 2 / Math.tan(fov / 2));
+    cameraZ *= 1.7;
+    // Pure front view: camera directly in front along +Z, matches old html.
+    camera.position.set(0, 0, cameraZ + maxDim);
     camera.lookAt(center);
     controls.target.copy(center);
     controls.update();
